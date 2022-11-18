@@ -37,6 +37,17 @@ Ruben Rodriguez — Blog</title><meta charset=utf-8><meta name=viewport content=
 </span></span><span style=display:flex><span>λ sudo pacman -S xorg xorg-apps
 </span></span><span style=display:flex><span>λ yay -S envycontrol
 </span></span><span style=display:flex><span>λ sudo envycontrol -s integrated
+</span></span></code></pre></div><blockquote><p>At the time of this installation, <a href=https://bugs.archlinux.org/task/74886>nvidia may not boot</a> on Linux 5.18 (or later) on systems with Intel CPUs. When changing to hybrid or nvidia graphics mode with <code>envycontrol</code> you may find a blank screen. To solve it, you can boot a live CD installation and chroot into it to execute <code>envycontrol</code> and change back to the integrated graphics mode.</p></blockquote><p>Checking the logs from previous boot you will find something like:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>λ  journalctl -b-3
+</span></span><span style=display:flex><span>...
+</span></span><span style=display:flex><span>traps: Missing ENDBR: _nv011889rm+0x0/0x10 <span style=color:#f92672>[</span>nvidia<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>kernel: ------------<span style=color:#f92672>[</span> cut here <span style=color:#f92672>]</span>------------
+</span></span><span style=display:flex><span>kernel: kernel BUG at arch/x86/kernel/traps.c:253!
+</span></span><span style=display:flex><span>systemd<span style=color:#f92672>[</span>1<span style=color:#f92672>]</span>: Failed to start Load Kernel Modules.
+</span></span><span style=display:flex><span>...
+</span></span></code></pre></div><p>Until this is fixed, a workaround is disabling the Indirect Branch Tracking CPU security feature by setting the <code>ibt=off</code> kernel parameter:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>λ  vim /etc/default/grub
+</span></span><span style=display:flex><span>GRUB_CMDLINE_LINUX_DEFAULT<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;loglevel=3 quiet ibt=off&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>λ  grub-mkconfig -o /boot/grub/grub.cfg
 </span></span></code></pre></div><h2 id=customizations--tweaks>Customizations & Tweaks
 <a href=#customizations--tweaks class=h-anchor aria-hidden=true>#</a></h2><p>This is more of a personal taste and involves my usual setup of basic tools (window manager, sound control, etc)</p><h3 id=window-manager-vs-desktop-environment>Window Manager vs. Desktop Environment
 <a href=#window-manager-vs-desktop-environment class=h-anchor aria-hidden=true>#</a></h3><p>Ever since I tried a Window Manager (i3), I have not been able to go back to a proper DE (I&rsquo;ve used GNOME, Cinammon and, lately, KDE Plasma). Whenever I try a DE, I feel really slow using the machine. For that reason, I find myself really comfortable using i3 WM and the usual tools that are installed with it.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>λ sudo pacman -S i3
@@ -103,6 +114,9 @@ UUID=this-is-the-UIID-to-keep  /         	ext4      	rw,relatime	0 1
 </span></span><span style=display:flex><span>GRUB_THEME<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/boot/themes/Stylish/theme.txt&#34;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>λ  grub-mkconfig -o /boot/grub/grub.cfg
+</span></span></code></pre></div><blockquote><p><a href=https://wiki.archlinux.org/title/Dm-crypt/Specialties#Discard/TRIM_support_for_solid_state_drives_(SSD)>TRIM Support</a> If you wish to be able to <code>TRIM</code> your device, change <code>GRUB_CMDLINE_LINUX_DEFAULT</code> to:</p></blockquote><pre tabindex=0><code>GRUB_CMDLINE_LINUX_DEFAULT=&#34;loglevel=3 quiet cryptdevice=UUID=f435a66e-28c4-4b78-9ebe-bf87614a6fee:root:allow-discards root=/dev/mapper/root rd.luks.options=discard
+</code></pre><p>And enable fstrim timer:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>λ sudo systemctl enable fstrim.timer
+</span></span><span style=display:flex><span>λ sudo systemctl start fstrim.timer
 </span></span></code></pre></div><ol start=9><li>That&rsquo;s it, exit the <code>chroot</code> environment, umount everything and reboot:</li></ol><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>λ exit
 </span></span><span style=display:flex><span>λ umount /mnt
 </span></span><span style=display:flex><span>λ cryptsetup close /dev/mapper/root
