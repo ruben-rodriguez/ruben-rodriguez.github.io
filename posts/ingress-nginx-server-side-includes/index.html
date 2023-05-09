@@ -71,7 +71,7 @@ http {
 </span></span><span style=display:flex><span>  <span style=color:#f92672>annotations</span>:
 </span></span><span style=display:flex><span>    <span style=color:#f92672>nginx.ingress.kubernetes.io/rewrite-target</span>: <span style=color:#ae81ff>/$2</span>
 </span></span><span style=display:flex><span>    <span style=color:#f92672>nginx.ingress.kubernetes.io/server-snippet</span>: |<span style=color:#e6db74>
-</span></span></span><span style=display:flex><span><span style=color:#e6db74>        </span>        <span style=color:#ae81ff>ssi on;</span>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>        ssi on;</span>        
 </span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>micro-frontend</span>
 </span></span><span style=display:flex><span>  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>default</span>
 </span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
@@ -230,7 +230,7 @@ http {
 <a href=#conclusions class=h-anchor aria-hidden=true>#</a></h2><ul><li>These were some quick ways to implement micro-frontend architectures in Kubernetes running Nginx Ingress controller.</li><li>In multi-tenancy platforms where different users are able to manage thier Ingress resources, enabling <code>server-snippets</code> might not be the best approach.</li><li>Maintaining a configuration file for the controller might introduce a risk that could break the whole Ingress controller in case of a misconfiguration.</li><li>Implementing the micro-frontend behind the Ingress controller seems to be the best approach.</li></ul><h2 id=related-links>Related links
 <a href=#related-links class=h-anchor aria-hidden=true>#</a></h2><ul><li><a href=https://github.com/kubernetes/ingress-nginx>https://github.com/kubernetes/ingress-nginx</a></li><li><a href=https://kubernetes.github.io/ingress-nginx/examples/rewrite/>https://kubernetes.github.io/ingress-nginx/examples/rewrite/</a></li><li><a href=https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/custom-template/>https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/custom-template/</a></li></ul></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button next"><a href=https://ruben-rodriguez.github.io/posts/minio-s3-terraform-backend/><span class=button__text>Selfhosted S3 Terraform Backend using MinIO</span>
 <span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><a href=/ class=logo style=text-decoration:none><span class=logo__mark><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44"><path fill="none" d="M15 8l14.729 14.382L15 35.367"/></svg></span><span class=logo__text>Ruben Rodriguez</span>
-<span class=logo__cursor></span></a><div class=copyright><span>© 2022 Powered by
+<span class=logo__cursor></span></a><div class=copyright><span>© 2023 Powered by
 <a href=https://gohugo.io target=_blank rel=noopener>Hugo</a></span>
 <span>Theme created by
 <a href=https://twitter.com/panr target=_blank rel=noopener>panr</a></span></div></div></footer><script src=https://ruben-rodriguez.github.io/assets/main.js></script>

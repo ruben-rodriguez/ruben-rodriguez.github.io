@@ -87,7 +87,7 @@ Ruben Rodriguez — Blog</title><meta charset=utf-8><meta name=viewport content=
 </span></span><span style=display:flex><span>GRUB_CMDLINE_LINUX_DEFAULT<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;loglevel=3 quiet ibt=off&#34;</span>
 </span></span><span style=display:flex><span>
 </span></span><span style=display:flex><span>λ  grub-mkconfig -o /boot/grub/grub.cfg
-</span></span></code></pre></div><h2 id=customizations--tweaks>Customizations & Tweaks
+</span></span></code></pre></div><blockquote><p>An issue I faced during a system package upgrade is that I stumbled on a black screen and I were only able to login to a tty. This was caused by an upgrade to <code>optimus-manager</code> package that broke it (I checked by running <code>optimus-manager --status</code> on the tty session after login). The solution was as easy as reinstalling <code>optimus-manager</code> with clean build options through <code>yay</code>.</p></blockquote><h2 id=customizations--tweaks>Customizations & Tweaks
 <a href=#customizations--tweaks class=h-anchor aria-hidden=true>#</a></h2><p>This is more of a personal taste and involves my usual setup of basic tools (window manager, sound control, etc)</p><h3 id=window-manager-vs-desktop-environment>Window Manager vs. Desktop Environment
 <a href=#window-manager-vs-desktop-environment class=h-anchor aria-hidden=true>#</a></h3><p>Ever since I tried a Window Manager (i3), I have not been able to go back to a proper DE (I&rsquo;ve used GNOME, Cinammon and, lately, KDE Plasma). Whenever I try a DE, I feel really slow using the machine. For that reason, I find myself really comfortable using i3 WM and the usual tools that are installed with it.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>λ sudo pacman -S i3
 </span></span></code></pre></div><h3 id=login>Login
@@ -164,7 +164,7 @@ UUID=this-is-the-UIID-to-keep  /         	ext4      	rw,relatime	0 1
 <span class=button__text>Selfhosted S3 Terraform Backend using MinIO</span></a></span>
 <span class="button next"><a href=https://ruben-rodriguez.github.io/posts/kube-prom-stack-blackbox/><span class=button__text>Endpoints Monitoring - BlackBox Exporter</span>
 <span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><a href=/ class=logo style=text-decoration:none><span class=logo__mark><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" viewBox="0 0 44 44"><path fill="none" d="M15 8l14.729 14.382L15 35.367"/></svg></span><span class=logo__text>Ruben Rodriguez</span>
-<span class=logo__cursor></span></a><div class=copyright><span>© 2022 Powered by
+<span class=logo__cursor></span></a><div class=copyright><span>© 2023 Powered by
 <a href=https://gohugo.io target=_blank rel=noopener>Hugo</a></span>
 <span>Theme created by
 <a href=https://twitter.com/panr target=_blank rel=noopener>panr</a></span></div></div></footer><script src=https://ruben-rodriguez.github.io/assets/main.js></script>
