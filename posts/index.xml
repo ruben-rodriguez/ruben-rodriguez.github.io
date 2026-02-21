@@ -1,4 +1,67 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Ruben Rodriguez</title><link>https://ruben-rodriguez.github.io/posts/</link><description>Recent content in Posts on Ruben Rodriguez</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Wed, 07 Sep 2022 00:00:00 +0800</lastBuildDate><atom:link href="https://ruben-rodriguez.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Micro-frontends and Ingress Nginx - Server Side Includes</title><link>https://ruben-rodriguez.github.io/posts/ingress-nginx-server-side-includes/</link><pubDate>Wed, 07 Sep 2022 00:00:00 +0800</pubDate><guid>https://ruben-rodriguez.github.io/posts/ingress-nginx-server-side-includes/</guid><description>&lt;h2 id="context"&gt;Context&lt;/h2&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Ruben Rodriguez</title><link>https://ruben-rodriguez.github.io/posts/</link><description>Recent content in Posts on Ruben Rodriguez</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Tue, 20 Jan 2026 00:00:00 +0800</lastBuildDate><atom:link href="https://ruben-rodriguez.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Podman setup in MacOS</title><link>https://ruben-rodriguez.github.io/posts/macos-podman-setup/</link><pubDate>Tue, 20 Jan 2026 00:00:00 +0800</pubDate><guid>https://ruben-rodriguez.github.io/posts/macos-podman-setup/</guid><description>&lt;h2 id="context"&gt;Context&lt;/h2&gt;
+&lt;p&gt;I recently got my hands on a Macbook Pro M1 Max, and I wanted to set up a local container environment for development purposes. I&amp;rsquo;m used to run containers natively on Linux, but on MacOS, I had to find an alternative solution. After some research, I decided to use Podman, which is a daemonless container engine that can run on MacOS using a virtual machine.&lt;/p&gt;
+&lt;h2 id="installation"&gt;Installation&lt;/h2&gt;
+&lt;p&gt;&lt;a href="https://podman.io/docs/installation"&gt;Podman installation instructions&lt;/a&gt;&lt;/p&gt;</description><content type="html"><![CDATA[<h2 id="context">Context</h2>
+<p>I recently got my hands on a Macbook Pro M1 Max, and I wanted to set up a local container environment for development purposes. I&rsquo;m used to run containers natively on Linux, but on MacOS, I had to find an alternative solution. After some research, I decided to use Podman, which is a daemonless container engine that can run on MacOS using a virtual machine.</p>
+<h2 id="installation">Installation</h2>
+<p><a href="https://podman.io/docs/installation">Podman installation instructions</a></p>
+<p>I used <a href="https://brew.sh/">brew</a> to install Podman:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ brew install podman
+</span></span></code></pre></div><p>To start using it, you just need to:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ podman machine init
+</span></span><span style="display:flex;"><span>λ podman machine start
+</span></span></code></pre></div><p>And verify with</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ podman info
+</span></span></code></pre></div><p>You can now add the <code>docker</code> alias if you have muscular memory.
+This heavily depends on your shell; in my case, I use <code>fish</code> shell so I added the following line to my <code>~/.config/fish/config.fish</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>alias docker podman
+</span></span></code></pre></div><h2 id="custom-ssl-certificates">Custom SSL Certificates</h2>
+<p><a href="https://podman-desktop.io/docs/podman/adding-certificates-to-a-podman-machine">Adding certificates to a Podman machine</a></p>
+<p>There are special situations, like when you are working within a corporate environment with a VPN connection and custom SSL certificates, where you need to make sure that the container engine can access those certificates. In such cases, you can mount the directory containing the certificates into the Podman machine.</p>
+<p>In my case, the certificates where located remotely, hence I did:</p>
+<ol>
+<li>Access your podman machine and become <code>root</code>:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ podman machine ssh
+</span></span><span style="display:flex;"><span>λ sudo su -
+</span></span></code></pre></div><ol start="2">
+<li>Fetch the certificates, placing them in the <code>/etc/pki/ca-trust/source/anchors/</code> directory:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>curl -o /etc/pki/ca-trust/source/anchors/corp.crt https://example.com/corp.crt
+</span></span></code></pre></div><ol start="3">
+<li>Update the system trust store and exit the machine:</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ update-ca-trust
+</span></span><span style="display:flex;"><span>λ exit
+</span></span></code></pre></div><p>This is probably not enough, as you might need to also add these certificates as a volume available when building the containers:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ podman build --volume &lt;path-to-local-certs&gt;:/etc/ssl/certs:ro -t &lt;image-name&gt; .
+</span></span></code></pre></div><h2 id="conatiner-inspection-with-dive">Conatiner inspection with Dive</h2>
+<p>From time to time, need arises to take a closer look to a particular container.
+For such endeavour, I use <a href="https://github.com/wagoodman/dive">dive</a> tool, which allows to inspect the layers of a container image and see how they are built up.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ brew install dive
+</span></span></code></pre></div><p>For running dive against podman:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ dive podman://&lt;image-name&gt;
+</span></span></code></pre></div><h2 id="bonus-azure-cloud--acr">Bonus: Azure Cloud &amp; ACR</h2>
+<p>If you are using Azure Cloud and Azure Container Registry (ACR), you will probably need to authenticate (more often than not) to ACR to pull images.</p>
+<p>The trick here is to set the <code>DOCKER_COMMAND</code> environment variable to <code>podman</code> before running the <code>az acr login</code> command.
+As you can imagine, I added this to my <code>~/.config/fish/config.fish</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>set -x DOCKER_COMMAND podman
+</span></span></code></pre></div><p>This way, when you run <code>az acr login</code>, it will use <code>podman</code> instead of <code>docker</code> to authenticate to ACR, and you will be able to pull images from ACR using Podman without any issues.</p>
+<p>Also helpful if you are using helm charts stored in such ACR with <code>helm dependency update &amp; helm dependency build</code>!</p>
+<blockquote>
+<p>Make sure your podman machine is running before executing the <code>az acr login</code> command, otherwise you might encounter authentication issues.</p>
+</blockquote>
+<h2 id="bonus-minikube">Bonus: Minikube</h2>
+<p>After setting up pdoman, minikube is the next logical step if you want to have a local Kubernetes cluster for development purposes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ brew install minikube
+</span></span></code></pre></div><blockquote>
+<p>For custom SSL certificates, as before, you will need to copy the custom SSL certificates to the minikube VM:
+<code>λ cp &lt;path-to-local-certs&gt; .minikube/certs/</code></p>
+</blockquote>
+<p>Then start the minikube cluster using the <code>podman</code> driver:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>λ minikube start --driver<span style="color:#f92672">=</span>podman --container-runtime<span style="color:#f92672">=</span>cri-o
+</span></span></code></pre></div><p>This will start a local Kubernetes cluster using Podman as the container runtime, and you will be able to use <code>kubectl</code> to interact with the cluster as usual.</p>
+]]></content></item><item><title>Micro-frontends and Ingress Nginx - Server Side Includes</title><link>https://ruben-rodriguez.github.io/posts/ingress-nginx-server-side-includes/</link><pubDate>Wed, 07 Sep 2022 00:00:00 +0800</pubDate><guid>https://ruben-rodriguez.github.io/posts/ingress-nginx-server-side-includes/</guid><description>&lt;h2 id="context"&gt;Context&lt;/h2&gt;
 &lt;p&gt;I was recently involved in the research of enabling SSI or server side includes at Ingress (Nginx) level. Citing the &lt;a href="https://en.wikipedia.org/wiki/Server_Side_Includes"&gt;Wikipedia definition&lt;/a&gt;, SSI is a simple interpreted server-side scripting language used almost exclusively for the World Wide Web. It is most useful for including the contents of one or more files into a web page on a web server, using its &lt;code&gt;#include&lt;/code&gt; directive.&lt;/p&gt;
 &lt;p&gt;This was a very convenient way of adding the current date to web pages back in the old days:&lt;/p&gt;</description><content type="html"><![CDATA[<h2 id="context">Context</h2>
 <p>I was recently involved in the research of enabling SSI or server side includes at Ingress (Nginx) level. Citing the <a href="https://en.wikipedia.org/wiki/Server_Side_Includes">Wikipedia definition</a>, SSI is a simple interpreted server-side scripting language used almost exclusively for the World Wide Web. It is most useful for including the contents of one or more files into a web page on a web server, using its <code>#include</code> directive.</p>
